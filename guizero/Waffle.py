@@ -58,9 +58,19 @@ class Waffle(
 
     # Internal use only
     def _draw(self, color):
+        # Resize Canvas
+        self._c_height = self._height*(self._pixel_size+self._pad)
+        self._c_width = self._width*(self._pixel_size+self._pad)
+        self._canvas['height'] = self._c_height
+        self._canvas['width'] = self._c_width
+        
+        #Clear the canvas and objects if they exist
+        self._save_canvas = []
+        self._canvas.delete("all")
         # Draw the pixels on the canvas
         currx = self._pad
         curry = self._pad
+        self.color = color
 
         for y in range(self._height):
             row = []
@@ -148,6 +158,7 @@ class Waffle(
     @width.setter
     def width(self, value):
         self._width = value
+        self._draw(self.color)
 
     @property
     def height(self):
@@ -156,6 +167,7 @@ class Waffle(
     @height.setter
     def height(self, value):
         self._height = value
+        self._draw(self.color)
 
     @property
     def pixel_size(self):
